@@ -1,0 +1,52 @@
+---
+format: gfm
+---
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
+
+```{r}
+#| include: false
+# Create pdf and png version of template
+library(tidyverse)
+library(quarto)
+library(magick)
+
+# Render template
+quarto_render(input = "template.qmd")
+fs::file_delete(c("monash1line.jpg"))
+# Convert rendered PDF to PNG
+image_read_pdf("template.pdf", pages = 1) |>
+  image_montage(geometry = "x1000+25+35", tile = 1, bg = "grey92", shadow = TRUE) |>
+  image_convert(format = "png") |>
+  image_write("examples/template.png")
+# Move pdf to examples folder
+fs::file_move("template.pdf", "examples/template.pdf")
+```
+
+# Monash Exam Format Template
+
+This is a Quarto template that assists you in creating an exam for Monash University.
+
+## Creating a new exam
+
+You can use this as a template to create a exam.
+To do this, use the following command:
+
+```bash
+quarto use template quarto-monash/exam
+```
+
+This will install the extension and create an example qmd file that you can use as a starting place for your exam.
+
+## Installation for existing document
+
+You may also use this format with an existing Quarto project or document.
+From the quarto project or document directory, run the following command to install this format:
+
+```bash
+quarto install extension quarto-monash/exam
+```
+
+## Example
+
+[![](examples/template.png)](examples/template.pdf)

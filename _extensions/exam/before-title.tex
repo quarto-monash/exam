@@ -108,17 +108,24 @@
 \setcounter{secnumdepth}{1} % Only number questions
 \newcounter{question}
 \setcounter{question}{0}
-\newcounter{mks}
-\setcounter{mks}{0}
-\def\marks#1{\par\rightline{\normalsize\fbox{\sffamily\emph{#1 marks}}}\addtocounter{mks}{#1}}
-\def\endquestion{\nopagebreak\vspace*{0.3cm}\par\nopagebreak\rightline{\normalsize\fbox{\sffamily\textbf{Total: \arabic{mks} marks}}}\vspace*{0.5cm}\pagebreak}
-
 \makeatletter
+\newlength{\exam@mks}
+\def\exam@markword#1{\ifdim#1pt=1pt\ mark\else\ marks\fi}
+\def\marks#1{%
+  \par\rightline{\normalsize\fbox{\sffamily\emph{#1\exam@markword{#1}}}}%
+  \global\advance\exam@mks #1 pt\relax
+}
+\def\endquestion{%
+  \nopagebreak\vspace*{0.3cm}\par\nopagebreak
+  \rightline{\normalsize\fbox{\sffamily\textbf{Total: \pgfmathprintnumber{\strip@pt\exam@mks}\exam@markword{\strip@pt\exam@mks}}}}%
+  \vspace*{0.5cm}\pagebreak
+  \global\exam@mks=0pt%
+}
 \titleformat{\section}[block]%
   {\fontsize{15}{15}\bfseries}%
   {\ifthenelse{\value{question} > 0}{\endquestion\clearpage}{}%
   {\sffamily\bfseries\Large\textbf{SECTION}~\addtocounter{question}{1}\Alph{question}}}
-  {0.0em}{\noindent\setcounter{mks}{0}\@gobble}
+  {0.0em}{\noindent\global\exam@mks=0pt\@gobble}
 \makeatother
 \titleformat{\subsection}[block]
   {\fontsize{11}{12}\bfseries}{}{0.2em}{}

@@ -50,3 +50,56 @@ quarto install extension quarto-monash/exam
 ## Example
 
 [![](examples/template.png)](examples/template.pdf)
+
+## Solution toggle and answer fields
+
+This extension supports solution blocks that display differently based on rendering mode:
+
+- **Exam mode** (default): Solution content is hidden and replaced with answer boxes
+- **Solution mode** (`-M solution:true`): Solutions are displayed with styled formatting
+
+### Usage
+
+```markdown
+::: {.solution box=4}
+Your solution content here with point markers \p \pp
+:::
+```
+
+### Rendering commands
+
+```bash
+# Render exam sheet (solutions hidden, answer boxes shown)
+quarto render template.qmd -M solution:false
+
+# Render solution sheet (solutions visible)
+quarto render template.qmd -M solution:true
+
+# Render with blank answer boxes (no grid)
+quarto render template.qmd -M solution:false -M grid-paper:false
+```
+
+### Answer field sizing
+
+- `box=X` - Creates an answer field of X cm height in exam mode
+- If `box` is omitted, height is auto-estimated from solution content
+
+### Point markers and automatic marks
+
+Place point markers inside solution blocks to annotate where marks are awarded:
+
+- `\p` - 1 point
+- `\hp` - 0.5 points (half point)
+- `\pp` - 2 points (double points)
+
+In solution mode, these display as red superscripts (e.g., `^[1P]`). In exam mode, they are invisible.
+
+Marks are **automatically counted** from these markers and displayed in a box after each solution block (e.g., *7 marks*). Section totals are computed and shown at the end of each section. There is no need to add `\marks{N}` manually.
+
+### YAML options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `solution` | Show solutions instead of answer boxes | `false` |
+| `grid-paper` | Show 5mm grid in answer boxes | `true` |
+| `answerfields` | Show answer boxes in exam mode | `true` |

@@ -1,0 +1,6 @@
+*.pdf
+*.html
+.Rhistory
+test-edge-cases.*
+test-exam*.pdf
+test-solutions*.pdf

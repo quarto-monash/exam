@@ -1,6 +1,6 @@
 title: Monash Exam
 author: Rob J Hyndman
-version: 2.0.0
+version: 2.1.0
 quarto-required: ">=1.4.0"
 contributes:
   formats:
@@ -16,6 +16,11 @@ contributes:
       geometry: margin=2cm
       highlight: tango
       block-headings: false
+      filters:
+        - at: pre-ast
+          path: solution.lua
+      include-in-header:
+        - solution-boxes.tex
       template-partials:
         - before-title.tex
         - after-body.tex

@@ -1,0 +1,95 @@
+% Solution boxes and auto-points support
+\usepackage[most]{tcolorbox}
+
+%% Solution box style - dark gray left border
+\newtcolorbox{solutionbox}{
+  blanker,
+  left=4mm,
+  borderline west={3pt}{0pt}{gray!50},
+  before skip=0.5\baselineskip,
+  after skip=0.5\baselineskip,
+  boxsep=2mm,
+  arc=0pt,
+  outer arc=0pt,
+  top=2mm,
+  bottom=2mm,
+  right=2mm,
+}
+
+%% Solution toggle (\ifsolution) and grid toggle (\ifexamgrid)
+%% are defined by solution.lua via header-includes using \newif
+
+%% Point markers for grading - only visible in solution mode
+%% \p = 1 point, \hp = 0.5 points (half), \pp = 2 points (double)
+%% These work both in text mode and math mode
+\newcommand{\pmark}[1]{\ifsolution\ifmmode\text{\textsuperscript{\textcolor{red}{\tiny[#1]}}}\else\textsuperscript{\textcolor{red}{\tiny[#1]}}\fi\fi}
+\newcommand{\p}{\pmark{1P}}
+\newcommand{\hp}{\pmark{\textonehalf P}}
+\newcommand{\pp}{\pmark{2P}}
+
+%% Answer field (only shown when solution=false)
+%% Uses breakable tcolorbox so it can continue onto next page
+%% Grid lines shown only when \ifexamgrid is true
+%% Usage: \examanswerfield{height in cm}, e.g., \examanswerfield{4}
+\newlength{\examanswerfieldtarget}
+\newlength{\examanswerfieldcurrent}
+\newcommand{\examanswerfield}[1]{%
+  \ifsolution
+    \vspace{0.5\baselineskip}% minimal space in solution mode
+  \else
+    \par\vspace{0.3\baselineskip}%
+    \ifexamgrid
+      % Grid version
+      \begin{tcolorbox}[
+        breakable,
+        enhanced jigsaw,
+        colback=white,
+        colframe=gray!40,
+        boxrule=0.4pt,
+        arc=0pt,
+        outer arc=0pt,
+        left=0pt, right=0pt, top=0pt, bottom=0pt,
+        boxsep=0pt,
+        pad at break=0pt,
+        underlay unbroken and first={
+          \begin{tcbclipinterior}
+            \draw[step=5mm, gray!40, thin] (interior.south west) grid (interior.north east);
+          \end{tcbclipinterior}
+        },
+        underlay middle={
+          \begin{tcbclipinterior}
+            \draw[step=5mm, gray!40, thin] (interior.south west) grid (interior.north east);
+          \end{tcbclipinterior}
+        },
+        underlay last={
+          \begin{tcbclipinterior}
+            \draw[step=5mm, gray!40, thin] (interior.south west) grid (interior.north east);
+          \end{tcbclipinterior}
+        },
+      ]
+    \else
+      % Blank version (just grey border)
+      \begin{tcolorbox}[
+        breakable,
+        enhanced jigsaw,
+        colback=white,
+        colframe=gray!40,
+        boxrule=0.4pt,
+        arc=0pt,
+        outer arc=0pt,
+        left=0pt, right=0pt, top=0pt, bottom=0pt,
+        boxsep=0pt,
+        pad at break=0pt,
+      ]
+    \fi
+    % Insert 1cm tall paragraphs to allow page breaks
+    \setlength{\examanswerfieldtarget}{#1 cm}%
+    \setlength{\examanswerfieldcurrent}{0pt}%
+    \loop\ifdim\examanswerfieldcurrent<\examanswerfieldtarget
+      \strut\par\vspace{0.65cm}%
+      \addtolength{\examanswerfieldcurrent}{1cm}%
+    \repeat
+    \end{tcolorbox}%
+    \par\vspace{0.3\baselineskip}%
+  \fi
+}

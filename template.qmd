@@ -7,6 +7,7 @@ examperiod: Examination Period
 format: exam-pdf
 ---
 
+<!-- Points are auto-counted from \p (1), \hp (0.5), \pp (2) markers in solution blocks -->
 **The exam contains FIVE questions. ALL questions must be answered. The exam is worth 100 marks in total.**
 
 \vspace*{2cm}
@@ -17,7 +18,17 @@ format: exam-pdf
 Show that the following expression is the MLE for the variance assuming a Gaussian distribution.
 $$ \hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n (x_i-\bar{x})^2$$
 
-\marks{20}
+::: {.solution box=6}
+**Solution:**
+
+We maximize the log-likelihood: \p
+$$\ell(\mu, \sigma^2) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2$$ \pp
+
+Taking the derivative with respect to $\sigma^2$ and setting to zero: \p
+$$\frac{\partial \ell}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i-\mu)^2 = 0$$ \pp
+
+Solving gives $\hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2$ \p
+:::
 
 #
 
@@ -25,8 +36,21 @@ Second question.
 
 (a)
 
-    Part a. \marks{4}
+    Part a.
 
-(b) More stuff. \marks{10}
+::: {.solution box=3}
+Solution for part a. \p \p
+:::
 
-(c) Final part. \marks{6}
+(b) More stuff.
+
+::: {.solution box=4}
+Solution for part b with more detail. \p \pp
+:::
+
+(c) Final part.
+
+::: {.solution}
+Solution for part c - height is auto-estimated from content length.
+This allows for flexible answer fields. \p \p \p
+:::
